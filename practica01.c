@@ -16,7 +16,7 @@ int busquedaBinaria(int arr[], int l, int r)
         if (arr[medio] == medio)
         {
             printf("Se encontró un elemento de la forma A[i]=i -> %d \n", medio);
-            return 0;
+            return medio;
         }
         else if (arr[medio] < medio)
         {
@@ -29,6 +29,24 @@ int busquedaBinaria(int arr[], int l, int r)
     }
 
     return -1;
+}
+
+void assertBBinaria(){
+  int arr1[5] = {0,25,45,38,56};
+  int arr2[5] = {1,1,23,34,58};
+  int arr3[5] = {1,2,2,46,56};
+  int arr4[5] = {1,2,3,3,56};
+  int arr5[5] = {1,2,3,4,4};
+  int* arr[5] =  {arr1,arr2,arr3,arr4,arr5};
+
+  for(int i=0; i < 5; i++){
+    printf("Test, se espera un %i\n",i );
+    int e = busquedaBinaria(arr[i],i,5);
+    if( i == e )
+      printf("Prueba pasada\n");
+    else
+      printf("No paso :(\n");
+  }
 }
 
 char *copia(char *original)
@@ -85,9 +103,10 @@ void reverseWord(char *palabraReversa)
 
 int main()
 {
-    int arr[5] = {0, 11, 211, 222, 2212};
-    int n = sizeof(arr) / sizeof(arr[0]); //tamaño del arreglo / tamaño del tipo de dato = long del array.
-    busquedaBinaria(arr, 0, n - 1);
+    assertBBinaria();
+    //int arr[5] = {1, 1, 2, 222, 4444};
+    //int n = sizeof(arr) / sizeof(arr[0]); //tamaño del arreglo / tamaño del tipo de dato = long del array.
+    //busquedaBinaria(arr, 2, n - 1);
     char string[10] = "hola mundo";
     char *r = reverse(string);
 
