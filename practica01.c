@@ -59,27 +59,28 @@ char *reverse(char string[])
         j--;
     }
 
-    //    printf("reverse %s\n", copyStr);
+    //printf("reverse %s\n", copyStr);
 
     return copyStr;
 }
 
-char *reverseWord(char *palabraReversa)
+void reverseWord(char *palabraReversa)
 {
-    //char *palabraInicial = palabraReversa;
-    char *temp = palabraReversa;
+    char *palabraInicial = palabraReversa;
+    printf("inicio %s\n", palabraInicial);
     int len = strlen(palabraReversa);
     char *result = (char *)malloc(len + 1);
-    int i = 0;
-    for (; i < len; i++)
+    //int i = 0;
+    char *token = strtok(palabraInicial, " ");
+    while (token)
     {
-        result[i] = temp[i];
-        if (temp[i] == ' ')
-            temp[i] = '\0';
+        result = reverse(token);
+        token = strtok(NULL, " ");
+        printf("token: %s\n", result);
     }
 
     printf("resultado %s\n", result);
-    return result;
+    //return result;
 }
 
 int main()
