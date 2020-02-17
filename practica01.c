@@ -64,10 +64,11 @@ char *copia(char *original)
     copy[i] = '\0';
     return copy;
 }
-
+/*funcion reverse. Dada una palabra, copia su valor con malloc y realiza la reversa en O(n)*/
 char *reverse(char string[])
 {
     char *copyStr = copia(string);
+    printf("cadena inicial: %s\n", copyStr);
     int i = 0;
     int j = strlen(copyStr) - 1;
     char tmp;
@@ -79,29 +80,54 @@ char *reverse(char string[])
         i++;
         j--;
     }
-
-    //printf("reverse %s\n", copyStr);
-
+    printf("cadena revertida: %s\n", copyStr);
     return copyStr;
 }
-
-void reverseWord(char *palabraReversa)
+/*Toma una frase en reversa, la tokeniza por espacios en blanco, calcula reversa del token y las concatena al final*/
+char *reverseWord(char *palabraReversa)
 {
-    char *palabraInicial = palabraReversa;
-    printf("inicio %s\n", palabraInicial);
+    printf("revertir-palabra %s\n", palabraReversa);
     int len = strlen(palabraReversa);
     char *result = (char *)malloc(len + 1);
     //int i = 0;
-    char *token = strtok(palabraInicial, " ");
+    char *token = strtok(palabraReversa, " ");
     while (token)
     {
-        result = reverse(token);
-        token = strtok(NULL, " ");
-        printf("token: %s\n", result);
+        char *r = reverse(token);  //reversa de la primera palabra
+        strcat(r, " ");            //concatenamos el espacio
+        strcat(result, r);         //lo añadimos al resultado
+        token = strtok(NULL, " "); //calculamos el siguiente token
     }
+    result[len] = '\0'; //Quitamos el ultimo espacio metido por el token
+    return result;
+}
 
-    printf("resultado %s\n", result);
-    //return result;
+/**void printChar(char *cadena)
+{
+    int c = 0;
+    while (cadena[c] != '\0')
+    {
+        printf("print char is: %c\n", cadena[c]);
+        c++;
+    }
+}**/
+
+void assertReverseWord(char *oracion, char *esperado)
+{
+    char *reversaFrase = reverse(oracion);
+    char *reversaOracion = reverseWord(reversaFrase);
+
+    int codeResult = strcmp(reversaOracion, esperado);
+    if (strcmp(reversaOracion, esperado) == 0)
+    {
+        printf("La prueba es correcta: %d\n", codeResult);
+        printf("ESPERADO:%s\n", esperado);
+        printf("RESULTADO:%s\n", reversaOracion);
+    }
+    else
+    {
+        printf("ERROR, la prueba es incorrecta:%d\n", codeResult);
+    }
 }
 
 int main()
@@ -110,10 +136,11 @@ int main()
     //int arr[5] = {1, 1, 2, 222, 4444};
     //int n = sizeof(arr) / sizeof(arr[0]); //tamaño del arreglo / tamaño del tipo de dato = long del array.
     //busquedaBinaria(arr, 2, n - 1);
-    char string[10] = "hola mundo";
-    char *r = reverse(string);
-
-    reverseWord(r);
+    char oracion[] = "Hola mundo!";
+    char expected[] = "mundo! Hola";
+    //char *r = reverse(string);
+    //reverseWord(r);
+    assertReverseWord(oracion, expected);
 
     return 0;
 }
