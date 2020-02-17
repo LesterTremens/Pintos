@@ -31,22 +31,25 @@ int busquedaBinaria(int arr[], int l, int r)
     return -1;
 }
 
-void assertBBinaria(){
-  int arr1[5] = {0,25,45,38,56};
-  int arr2[5] = {1,1,23,34,58};
-  int arr3[5] = {1,2,2,46,56};
-  int arr4[5] = {1,2,3,3,56};
-  int arr5[5] = {1,2,3,4,4};
-  int* arr[5] =  {arr1,arr2,arr3,arr4,arr5};
-
-  for(int i=0; i < 5; i++){
-    printf("Test, se espera un %i\n",i );
-    int e = busquedaBinaria(arr[i],i,5);
-    if( i == e )
-      printf("Prueba pasada\n");
-    else
-      printf("No paso :(\n");
-  }
+void assertBBinaria()
+{
+    /*Todos los elementos son distintos*/
+    int arr1[5] = {0, 25, 45, 38, 56};
+    int arr2[5] = {1, 1, 23, 34, 58};
+    int arr3[5] = {1, 2, 2, 46, 56};
+    int arr4[5] = {1, 2, 3, 3, 56};
+    int arr5[5] = {1, 2, 3, 4, 4};
+    int *arr[5] = {arr1, arr2, arr3, arr4, arr5};
+    int i = 0;
+    for (; i < 5; i++)
+    {
+        printf("Test, se espera un %i\n", i);
+        int e = busquedaBinaria(arr[i], i, 5);
+        if (i == e)
+            printf("Prueba pasada\n");
+        else
+            printf("No paso :(\n");
+    }
 }
 
 char *copia(char *original)
