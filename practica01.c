@@ -133,13 +133,8 @@ void assertReverseWord(char *oracion, char *esperado)
 int main()
 {
     assertBBinaria();
-    //int arr[5] = {1, 1, 2, 222, 4444};
-    //int n = sizeof(arr) / sizeof(arr[0]); //tamaño del arreglo / tamaño del tipo de dato = long del array.
-    //busquedaBinaria(arr, 2, n - 1);
-    char oracion[] = "Hola mundo!";
+    char oracion[] = "Hola mundo!"; //ORLI: AGREGAR 4 O 5 PRUEBAS MAS, QUE LA MITAD PASE Y LA OTRA MITAD NO.
     char expected[] = "mundo! Hola";
-    //char *r = reverse(string);
-    //reverseWord(r);
     assertReverseWord(oracion, expected);
 
     return 0;
