@@ -34,11 +34,11 @@ int busquedaBinaria(int arr[], int l, int r)
 void assertBBinaria()
 {
     /*Todos los elementos son distintos*/
-    int arr1[5] = {0, 25, 45, 38, 56};
-    int arr2[5] = {1, 1, 23, 34, 58};
-    int arr3[5] = {1, 2, 2, 46, 56};
-    int arr4[5] = {1, 2, 3, 3, 56};
-    int arr5[5] = {1, 2, 3, 4, 4};
+    int arr1[5] = {0, 25, 45, 55, 65};
+    int arr2[5] = {-1, 1, 3, 7, 11};
+    int arr3[5] = {-2, -1, 2, 6, 8};
+    int arr4[5] = {-3, -2, -1, 3,33};
+    int arr5[5] = {-4, -3, -2,-1,4};
     int *arr[5] = {arr1, arr2, arr3, arr4, arr5};
     int i = 0;
     for (; i < 5; i++)
@@ -68,7 +68,7 @@ char *copia(char *original)
 char *reverse(char string[])
 {
     char *copyStr = copia(string);
-    printf("cadena inicial: %s\n", copyStr);
+    //printf("cadena inicial: %s\n", copyStr);
     int i = 0;
     int j = strlen(copyStr) - 1;
     char tmp;
@@ -80,13 +80,13 @@ char *reverse(char string[])
         i++;
         j--;
     }
-    printf("cadena revertida: %s\n", copyStr);
+    //printf("cadena revertida: %s\n", copyStr);
     return copyStr;
 }
 /*Toma una frase en reversa, la tokeniza por espacios en blanco, calcula reversa del token y las concatena al final*/
 char *reverseWord(char *palabraReversa)
 {
-    printf("revertir-palabra %s\n", palabraReversa);
+    //printf("revertir-palabra %s\n", palabraReversa);
     int len = strlen(palabraReversa);
     char *result = (char *)malloc(len + 1);
     //int i = 0;
@@ -112,7 +112,7 @@ char *reverseWord(char *palabraReversa)
     }
 }**/
 
-void assertReverseWord(char *oracion, char *esperado)
+/**void assertReverseWord(char *oracion, char *esperado)
 {
     char *reversaFrase = reverse(oracion);
     char *reversaOracion = reverseWord(reversaFrase);
@@ -128,14 +128,44 @@ void assertReverseWord(char *oracion, char *esperado)
     {
         printf("ERROR, la prueba es incorrecta:%d\n", codeResult);
     }
+}**/
+
+char* invert_statement (char* statement){
+  char *reversaFrase = reverse(statement);
+  return reverseWord(reversaFrase);
+
 }
+
+void assertInvertStatement()
+{
+    char oracion1[] = "Hola mundo!";
+    char expected1[] = "mundo! Hola";
+    char oracion2[] = "Orlando & Angye";
+    char expected2[] = "_Angye & Orlando_";
+    char oracion3[] = "Programar es lo maximo!";
+    char expected3[] = "Mentira";
+    char oracion4[] = " ¡¡ P = NP !!";
+    char expected4[] = "Esto sera falso";
+    char *oraciones[] = {oracion1, oracion2, oracion3, oracion4};
+    char *expected[] = {expected1,expected2,expected3,expected4};
+    int i = 0 ;
+    for(;i < 3;i++){
+      //int codeResult = strcmp(invert_statement(oraciones[i]),expected[i]);
+      if (strcmp(invert_statement(oraciones[i]) , expected[i]) == 0){
+        printf("La prueba es correcta\n");
+        printf("ESPERADO:%s\n",expected[i]);
+        printf("RESULTADO:%s\n", invert_statement(oraciones[i]));
+      }else{
+        printf("ERROR, la prueba es incorrecta\n");
+        printf("ESPERADO:%s\n", expected[i]);
+        printf("RESULTADO:%s\n", invert_statement(oraciones[i]));
+      }
+    }
+  }
 
 int main()
 {
     assertBBinaria();
-    char oracion[] = "Hola mundo!"; //ORLI: AGREGAR 4 O 5 PRUEBAS MAS, QUE LA MITAD PASE Y LA OTRA MITAD NO.
-    char expected[] = "mundo! Hola";
-    assertReverseWord(oracion, expected);
-
+    assertInvertStatement();
     return 0;
 }
