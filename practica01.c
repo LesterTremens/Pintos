@@ -8,23 +8,23 @@
  * sino, suponemos el el m-esimo es mayoy, de ser así, nos llamamos recursivamente en la parte superior (derecha), sino, en la parte inferior(izquierda)
  * si no se cumple la clausula de escape (a[i]=i]), devolvemos -1.
 */
-int busquedaBinaria(int arr[], int l, int r)
+int busquedaBinaria(int arr[], int l, int r, int buscado)
 {
     if (l <= r)
     {
         int medio = (l + r) / 2;
-        if (arr[medio] == medio)
+        if ((arr[medio] == medio) && (medio == buscado))
         {
             printf("Se encontró un elemento de la forma A[i]=i -> %d \n", medio);
             return medio;
         }
         else if (arr[medio] < medio)
         {
-            return busquedaBinaria(arr, (medio + 1), r);
+            return busquedaBinaria(arr, (medio + 1), r, buscado);
         }
         else
         {
-            return busquedaBinaria(arr, l, (medio - 1));
+            return busquedaBinaria(arr, l, (medio - 1), buscado);
         }
     }
 
@@ -37,14 +37,14 @@ void assertBBinaria()
     int arr1[5] = {0, 25, 45, 55, 65};
     int arr2[5] = {-1, 1, 3, 7, 11};
     int arr3[5] = {-2, -1, 2, 6, 8};
-    int arr4[5] = {-3, -2, -1, 3,33};
-    int arr5[5] = {-4, -3, -2,-1,4};
+    int arr4[5] = {-3, -2, -1, 3, 33};
+    int arr5[5] = {-4, -3, -2, -1, 4};
     int *arr[5] = {arr1, arr2, arr3, arr4, arr5};
     int i = 0;
     for (; i < 5; i++)
     {
         printf("Test, se espera un %i\n", i);
-        int e = busquedaBinaria(arr[i], i, 5);
+        int e = busquedaBinaria(arr[i], i, 5, i); //agregar un numero random entre 1 y 5
         if (i == e)
             printf("Prueba pasada\n");
         else
@@ -130,10 +130,10 @@ char *reverseWord(char *palabraReversa)
     }
 }**/
 
-char* invert_statement (char* statement){
-  char *reversaFrase = reverse(statement);
-  return reverseWord(reversaFrase);
-
+char *invert_statement(char *statement)
+{
+    char *reversaFrase = reverse(statement);
+    return reverseWord(reversaFrase);
 }
 
 void assertInvertStatement()
@@ -147,21 +147,25 @@ void assertInvertStatement()
     char oracion4[] = " ¡¡ P = NP !!";
     char expected4[] = "Esto sera falso";
     char *oraciones[] = {oracion1, oracion2, oracion3, oracion4};
-    char *expected[] = {expected1,expected2,expected3,expected4};
-    int i = 0 ;
-    for(;i < 3;i++){
-      //int codeResult = strcmp(invert_statement(oraciones[i]),expected[i]);
-      if (strcmp(invert_statement(oraciones[i]) , expected[i]) == 0){
-        printf("La prueba es correcta\n");
-        printf("ESPERADO:%s\n",expected[i]);
-        printf("RESULTADO:%s\n", invert_statement(oraciones[i]));
-      }else{
-        printf("ERROR, la prueba es incorrecta\n");
-        printf("ESPERADO:%s\n", expected[i]);
-        printf("RESULTADO:%s\n", invert_statement(oraciones[i]));
-      }
+    char *expected[] = {expected1, expected2, expected3, expected4};
+    int i = 0;
+    for (; i < 3; i++)
+    {
+        //int codeResult = strcmp(invert_statement(oraciones[i]),expected[i]);
+        if (strcmp(invert_statement(oraciones[i]), expected[i]) == 0)
+        {
+            printf("La prueba es correcta\n");
+            printf("ESPERADO:%s\n", expected[i]);
+            printf("RESULTADO:%s\n", invert_statement(oraciones[i]));
+        }
+        else
+        {
+            printf("ERROR, la prueba es incorrecta\n");
+            printf("ESPERADO:%s\n", expected[i]);
+            printf("RESULTADO:%s\n", invert_statement(oraciones[i]));
+        }
     }
-  }
+}
 
 int main()
 {
