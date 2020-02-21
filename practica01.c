@@ -1,7 +1,7 @@
 #include <stdio.h>
 #include <string.h>
 #include <stdlib.h>
-
+#include <time.h>
 /**
  * función busqBinaria: Toma O(logN) -> esto es menor que lineal.
  * calculamos el indice de enmedio y preguntamos y el medio-ésimo elemento es igual al índice, si lo es, existe al menos 1 y terminamos
@@ -30,7 +30,14 @@ int busquedaBinaria(int arr[], int l, int r, int buscado)
 
     return -1;
 }
-
+void printArray(int arr[], int len)
+{
+    int i = 0;
+    for (; i < len; i++)
+    {
+        printf("%d ", arr[i]);
+    }
+}
 void assertBBinaria()
 {
     /*Todos los elementos son distintos*/
@@ -40,11 +47,17 @@ void assertBBinaria()
     int arr4[5] = {-3, -2, -1, 3, 33};
     int arr5[5] = {-4, -3, -2, -1, 4};
     int *arr[5] = {arr1, arr2, arr3, arr4, arr5};
-    int i = 0;
-    for (; i < 5; i++)
+    int i;
+    int random;
+    int t = time(NULL);
+    srand(t);
+    for (i = 0; i < 5; i++)
     {
-        printf("Test, se espera un %i\n", i);
-        int e = busquedaBinaria(arr[i], i, 5, i); //agregar un numero random entre 1 y 5
+        random = rand() % 4 + 1;
+        printf("Arreglo: ");
+        printArray(arr[i], 5);
+        printf("Test, se busca un %d\n", random);
+        int e = busquedaBinaria(arr[i], i, 5, random); //agregar un numero random entre 1 y 5
         if (i == e)
             printf("Prueba pasada\n");
         else
