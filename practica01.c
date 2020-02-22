@@ -2,9 +2,24 @@
 #include <string.h>
 #include <stdlib.h>
 #include <time.h>
+#include <limits.h> //USAMOS INT_MIN e INT MAX para simular los INFINITOS
+
+struct node
+{
+    int node_value;
+    struct node *left;
+    struct node *right;
+};
+
+typedef struct node b_tree;
+
+// int exist_Ai_eq2_i (int* array, int array_size, int value); //Es el equivalente a busqueda binaria
+char *invert_statement(char *statement);
+int is_search_tree(b_tree *tree);
+
 /**
  * función busqBinaria: Toma O(logN) -> esto es menor que lineal.
- * calculamos el indice de enmedio y preguntamos y el medio-ésimo elemento es igual al índice, si lo es, existe al menos 1 y terminamos
+ * calculamos el indice de enmedio y preguntamos y el medio-ésimo elemento es igual al índice y a su vez al buscado, si lo es, existe 1 y terminamos
  * sino, suponemos el el m-esimo es mayoy, de ser así, nos llamamos recursivamente en la parte superior (derecha), sino, en la parte inferior(izquierda)
  * si no se cumple la clausula de escape (a[i]=i]), devolvemos -1.
 */
@@ -54,9 +69,10 @@ void assertBBinaria()
     for (i = 0; i < 5; i++)
     {
         random = rand() % 4 + 1;
-        printf("Arreglo: ");
+        printf("Arreglo: {");
         printArray(arr[i], 5);
-        printf("Test, se busca un %d\n", random);
+        printf("}");
+        printf("\nTest, se busca un %d\n", random);
         int e = busquedaBinaria(arr[i], i, 5, random); //agregar un numero random entre 1 y 5
         if (i == e)
             printf("Prueba pasada\n");
@@ -99,10 +115,8 @@ char *reverse(char string[])
 /*Toma una frase en reversa, la tokeniza por espacios en blanco, calcula reversa del token y las concatena al final*/
 char *reverseWord(char *palabraReversa)
 {
-    //printf("revertir-palabra %s\n", palabraReversa);
     int len = strlen(palabraReversa);
     char *result = (char *)malloc(len + 1);
-    //int i = 0;
     char *token = strtok(palabraReversa, " ");
     while (token)
     {
@@ -114,34 +128,6 @@ char *reverseWord(char *palabraReversa)
     result[len] = '\0'; //Quitamos el ultimo espacio metido por el token
     return result;
 }
-
-/**void printChar(char *cadena)
-{
-    int c = 0;
-    while (cadena[c] != '\0')
-    {
-        printf("print char is: %c\n", cadena[c]);
-        c++;
-    }
-}**/
-
-/**void assertReverseWord(char *oracion, char *esperado)
-{
-    char *reversaFrase = reverse(oracion);
-    char *reversaOracion = reverseWord(reversaFrase);
-
-    int codeResult = strcmp(reversaOracion, esperado);
-    if (strcmp(reversaOracion, esperado) == 0)
-    {
-        printf("La prueba es correcta: %d\n", codeResult);
-        printf("ESPERADO:%s\n", esperado);
-        printf("RESULTADO:%s\n", reversaOracion);
-    }
-    else
-    {
-        printf("ERROR, la prueba es incorrecta:%d\n", codeResult);
-    }
-}**/
 
 char *invert_statement(char *statement)
 {
@@ -164,7 +150,6 @@ void assertInvertStatement()
     int i = 0;
     for (; i < 3; i++)
     {
-        //int codeResult = strcmp(invert_statement(oraciones[i]),expected[i]);
         if (strcmp(invert_statement(oraciones[i]), expected[i]) == 0)
         {
             printf("La prueba es correcta\n");
@@ -180,9 +165,82 @@ void assertInvertStatement()
     }
 }
 
+/*Metodo para insertar nodos*/
+struct node *insertar(b_tree *nodo, int value)
+{
+    if (nodo == NULL)
+    {
+        b_tree *temp = (struct node *)malloc(sizeof(struct node));
+        temp->node_value = value;
+        return temp;
+    }
+    if (value < nodo->node_value)
+    {
+        nodo->left = insertar(nodo->left, value);
+    }
+    else if (value > nodo->node_value)
+    {
+        nodo->right = insertar(nodo->right, value);
+    }
+
+    return nodo;
+}
+/*Recorrido en orden para sacar los elementos.*/
+void recorre_inOrder(b_tree *root)
+{
+    if (root != NULL)
+    {
+        recorre_inOrder(root->left);
+        printf("%d \n", root->node_value);
+        recorre_inOrder(root->right);
+    }
+}
+
+int validarBinaryTree(b_tree *tree, int min, int max)
+{
+    if (tree == NULL)
+    {
+        return 0;
+    }
+    if (((tree->node_value) <= min) || ((tree->node_value) > max))
+    {
+        printf("Alguno de los subArboles no es un Arbol binario de busqueda:- ERROR");
+        return 1;
+    }
+
+    return validarBinaryTree(tree->left, min, tree->node_value) && validarBinaryTree(tree->right, tree->node_value, max); //Un arbol es un ABB sii sus subarboles lo son.
+}
+
+int is_search_tree(b_tree *tree)
+{
+
+    return validarBinaryTree(tree, INT_MIN, INT_MAX);
+}
+
+void assertIsBST(b_tree *tree)
+{
+    if (is_search_tree(tree) == 0)
+    {
+        printf("Prueba pasada, el arbol recibido es un Arbol Binario de Busqueda Valido\n");
+    }
+    else
+    {
+        printf("Prueba no pasada, el arbol no es un Arbol Binario de Busqueda Valido");
+    }
+}
+
 int main()
 {
     assertBBinaria();
     assertInvertStatement();
+
+    struct node *raiz = NULL;
+    raiz = insertar(raiz, 10);
+    insertar(raiz, 20);
+    insertar(raiz, 5);
+    insertar(raiz, 0);
+    insertar(raiz, 70);
+    insertar(raiz, 53);
+    assertIsBST(raiz);
     return 0;
 }
