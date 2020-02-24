@@ -139,8 +139,8 @@ void assertInvertStatement()
 {
     char oracion1[] = "Hola mundo!";
     char expected1[] = "mundo! Hola";
-    char oracion2[] = "Orlando & Angye";
-    char expected2[] = "_Angye & Orlando_";
+    char oracion2[] = "_Orlando & Angye_";
+    char expected2[] = "Angye_ & _Orlando";
     char oracion3[] = "Programar es lo maximo!";
     char expected3[] = "Mentira";
     char oracion4[] = " ¡¡ P = NP !!";
@@ -148,17 +148,19 @@ void assertInvertStatement()
     char *oraciones[] = {oracion1, oracion2, oracion3, oracion4};
     char *expected[] = {expected1, expected2, expected3, expected4};
     int i = 0;
-    for (; i < 3; i++)
+    for (; i < 4; i++)
     {
         if (strcmp(invert_statement(oraciones[i]), expected[i]) == 0)
         {
             printf("La prueba es correcta\n");
+            printf("ENTRADA:%s\n", oraciones[i]);
             printf("ESPERADO:%s\n", expected[i]);
             printf("RESULTADO:%s\n", invert_statement(oraciones[i]));
         }
         else
         {
-            printf("ERROR, la prueba es incorrecta\n");
+            printf("ERROR,la prueba es incorrecta\n");
+            printf("ENTRADA:%s\n", oraciones[i]);
             printf("ESPERADO:%s\n", expected[i]);
             printf("RESULTADO:%s\n", invert_statement(oraciones[i]));
         }
@@ -185,6 +187,28 @@ struct node *insertar(b_tree *nodo, int value)
 
     return nodo;
 }
+//Inserta de forma que no quede un arbol binario de busqueda
+struct node *insertarC(b_tree *nodo, int value)
+{
+    if (nodo == NULL)
+    {
+        b_tree *temp = (struct node *)malloc(sizeof(struct node));
+        temp->node_value = value;
+        return temp;
+    }
+    if (value > nodo->node_value)
+    {
+        nodo->left = insertar(nodo->left, value);
+    }
+    else if (value < nodo->node_value)
+    {
+        nodo->right = insertar(nodo->right, value);
+    }
+
+    return nodo;
+}
+
+
 /*Recorrido en orden para sacar los elementos.*/
 void recorre_inOrder(b_tree *root)
 {
@@ -204,7 +228,7 @@ int validarBinaryTree(b_tree *tree, int min, int max)
     }
     if (((tree->node_value) <= min) || ((tree->node_value) > max))
     {
-        printf("Alguno de los subArboles no es un Arbol binario de busqueda:- ERROR");
+        //printf("Alguno de los subArboles no es un Arbol binario de busqueda:- ERROR");
         return 1;
     }
 
@@ -217,15 +241,52 @@ int is_search_tree(b_tree *tree)
     return validarBinaryTree(tree, INT_MIN, INT_MAX);
 }
 
-void assertIsBST(b_tree *tree)
+void assertIsBST()//b_tree *tree)
 {
-    if (is_search_tree(tree) == 0)
-    {
+
+    struct node *raiz1 = NULL;
+    raiz1 = insertar(raiz1, 10);
+    insertar(raiz1, 20);
+    insertar(raiz1, 5);
+    insertar(raiz1, 0);
+    insertar(raiz1, 70);
+    insertar(raiz1, 53);
+
+    struct node *raiz2 = NULL;
+    raiz2 = insertar(raiz2, 50);
+    insertar(raiz2, 40);
+    insertar(raiz2, 30);
+    insertar(raiz2, 20);
+    insertar(raiz2, 10);
+    insertar(raiz2, 0);
+
+    struct node *raiz3 = NULL;
+    raiz3 = insertarC(raiz3, 10);
+    insertarC(raiz3, 12);
+    insertarC(raiz3, 21);
+    insertarC(raiz3, 54);
+    insertarC(raiz3, 76);
+    insertarC(raiz3, 100);
+
+    struct node *raiz4 = NULL;
+    raiz4 = insertarC(raiz4, 10);
+    insertarC(raiz4, 30);
+    insertarC(raiz4, 32);
+    insertarC(raiz4, 47);
+    insertarC(raiz4, 100);
+    insertarC(raiz4, 121);
+    struct node *trees[4] = {raiz1, raiz2, raiz3, raiz4};
+
+    int i = 0;
+    for (; i < 4; i++){
+      if (is_search_tree(trees[i]) == 0)
+      {
         printf("Prueba pasada, el arbol recibido es un Arbol Binario de Busqueda Valido\n");
-    }
-    else
-    {
-        printf("Prueba no pasada, el arbol no es un Arbol Binario de Busqueda Valido");
+      }
+      else
+      {
+        printf("Prueba no pasada, el arbol no es un Arbol Binario de Busqueda Valido\n");
+      }
     }
 }
 
@@ -233,14 +294,6 @@ int main()
 {
     assertBBinaria();
     assertInvertStatement();
-
-    struct node *raiz = NULL;
-    raiz = insertar(raiz, 10);
-    insertar(raiz, 20);
-    insertar(raiz, 5);
-    insertar(raiz, 0);
-    insertar(raiz, 70);
-    insertar(raiz, 53);
-    assertIsBST(raiz);
+    assertIsBST();
     return 0;
 }
