@@ -1,0 +1,45 @@
+La memoria no es independiente del proceso.
+
+Proceso: Programa en ejecución.
+
+procesos en windows (servicios)
+procesos en linux (demonios)
+
+
+*las 486 corrian con disket's de 5 1/4*
+
+¿Que requiere un SO para el manejo de procesos?
+
+un SO requiere una manera de poder distinguir los procesos en ejecución.
+
+Anteriormente en C la asignación de memoria dinámica podía invadir las 
+direcciones importantes del sistema.
+
+Se debe permitir la definición de prioridades y tiempos de ejecución 
+para los procesos.
+
+Las estrategias para atender e intercambiar los procesos se llevan acabo en el
+calendarizador, dichas estrategias son implementadas sobre las prioridades de 
+las tareas o los tiempos de ejecución.
+
+Estados de los procesos:
+
+Los procesos pueden tener estados como "nuevo", "encolado", "listo" (para entrar
+al procesador), "finalizado" etc etc etc.
+
+En princio, los procesos pueden ser muertos por señales desde el teclado, 
+no son mas que simples interrupciones.
+
+Los procesos en segundo plano son procesos hijos.
+
+En los browser, cada pestaña representa un proceso hijo.
+
+El comando "fg" devuelve un proceso de segundo a primer plano.
+
+TOP es el comando similar al administrador de procesos de Windows
+
+PARA INVESTIGAR:
+
+¿De donde viene systemd?
+
+¿Equivalente al systemd en windows?
