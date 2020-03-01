@@ -793,7 +793,7 @@ static void test_create_copy_single_node()
 static void test_create_copy_huge_list()
 {
     struct list_node *expected;
-    size_t size = 4;
+    size_t size = 10000;
     create_random_list_with_rand(&expected, size, TRUE);
 
     struct list_node *result = list_create_copy(expected);
@@ -955,12 +955,12 @@ int main(void)
     puts("STARTING UNIT TEST:\n");
 
     test_create_copy();
-    /* test_heap_sort();
+    test_heap_sort();
     test_list_insert_node();
     test_egypcian_multiplication();
     test_list_has_cycle();
     test_anagrams();
-    test_max_sum();*/
+    test_max_sum();
 
     printf("Overall test [ PASS / TOTAL ]: [ %d / %d ]\n", test_passed, TOTAL_TEST);
 
