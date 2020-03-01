@@ -88,7 +88,7 @@ void list_insert_node(struct list_node **list, struct list_node *new_node)
         }
         else
         {
-            while (aux->next != NULL && new_node->value > (*list)->next->value)
+            while (aux->next != NULL && new_node->value >= (*list)->next->value)
             {
                 aux = aux->next;
             }
