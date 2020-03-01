@@ -793,7 +793,7 @@ static void test_create_copy_single_node()
 static void test_create_copy_huge_list()
 {
     struct list_node *expected;
-    size_t size = 10000;
+    size_t size = 4;
     create_random_list_with_rand(&expected, size, TRUE);
 
     struct list_node *result = list_create_copy(expected);

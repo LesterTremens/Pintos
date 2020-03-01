@@ -15,42 +15,26 @@
 #include <assert.h>
 #include <stdbool.h>
 
-struct list_node *getByIndex(struct list_node *list, int index)
-{
-    struct list_node *current = list;
-
-    int count = 0;
-    while (current != NULL)
-    {
-        if (count == index)
-            return current;
-        count++;
-        current = current->next;
-    }
-
-    return current;
-}
-
 /**
  * 
  */
 struct list_node *list_create_copy(struct list_node *list)
 {
-    struct list_node *temp = NULL;
+    struct list_node *resultado = NULL;
     struct list_node *actual = list;
 
-    struct list_node *original, *copia;
+    struct list_node *original, *copiado;
 
     if (list == NULL)
         return list;
 
     while (actual)
     {
-        temp = actual->next;
+        resultado = actual->next;
         actual->next = (struct list_node *)malloc(sizeof(struct list_node));
         actual->next->value = actual->value;
-        actual->next->next = temp;
-        actual = temp;
+        actual->next->next = resultado;
+        actual = resultado;
     }
     actual = list;
 
@@ -64,19 +48,19 @@ struct list_node *list_create_copy(struct list_node *list)
     }
 
     original = list;
-    copia = list->next;
-    temp = copia;
-    while (original && copia)
+    copiado = list->next;
+    resultado = copiado;
+    while (original && copiado)
     {
         if (original->next)
             original->next = original->next->next;
-        if (copia->next)
-            copia->next = copia->next->next;
+        if (copiado->next)
+            copiado->next = copiado->next->next;
         original = original->next;
-        copia = copia->next;
+        copiado = copiado->next;
     }
 
-    return temp;
+    return resultado;
 }
 /**
  * Implementación del algoritmo de ordenación heapsort
@@ -94,6 +78,35 @@ void heap_sort(int *array, size_t size)
  */
 void list_insert_node(struct list_node **list, struct list_node *new_node)
 {
+    if (*list != NULL && new_node != NULL)
+    {
+        struct list_node *aux = *list;
+        if ((*list)->value > new_node->value)
+        {
+            new_node->next = *list;
+            *list = new_node;
+        }
+        else
+        {
+            while (aux->next != NULL && new_node->value > (*list)->next->value)
+            {
+                aux = aux->next;
+            }
+            new_node->next = aux->next;
+            aux->next = new_node;
+        }
+
+        //printf("ELSE %d", aux->value);
+    }
+    else if (*list == NULL && new_node != NULL)
+    {
+        new_node->next = *list;
+        *list = new_node;
+    }
+    else
+    {
+        return;
+    }
 }
 
 /**
