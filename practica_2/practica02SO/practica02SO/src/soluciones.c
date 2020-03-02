@@ -219,9 +219,27 @@ int anagrams(char *string1, char *string2)
         int sizeStr2 = strlen(string2);
         if (sizeStr1 != sizeStr2)
         {
-            printf("Las palabras son de tamaños diferentes");
+            //printf("Las palabras son de tamaños diferentes");
             return false;
         }
+
+        char *resultTokenizeStr1 = (char *)malloc(sizeStr1 + 1);
+        char *tokenStr1 = strtok(string1, " ");
+        while (tokenStr1)
+        {
+            strcat(resultTokenizeStr1, tokenStr1); //lo añadimos al resultado
+            tokenStr1 = strtok(NULL, " ");         //calculamos el siguiente token
+        }
+        resultTokenizeStr1[sizeStr1] = '\0'; //Quitamos el ultimo espacio metido por el token
+
+        char *resultTokenizeStr2 = (char *)malloc(sizeStr2 + 1);
+        char *tokenStr2 = strtok(string2, " ");
+        while (tokenStr2)
+        {
+            strcat(resultTokenizeStr2, tokenStr2); //lo añadimos al resultado
+            tokenStr2 = strtok(NULL, " ");         //calculamos el siguiente token
+        }
+        resultTokenizeStr2[sizeStr2] = '\0'; //Quitamos el ultimo espacio metido por el token
     }
     return false;
 }
