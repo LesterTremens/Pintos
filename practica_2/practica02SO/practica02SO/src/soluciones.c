@@ -32,7 +32,7 @@ struct list_node *getByIndex(struct list_node *list, int index)
 }
 
 /**
- * 
+ *
  */
 struct list_node *list_create_copy(struct list_node *list)
 {
@@ -86,7 +86,7 @@ void heap_sort(int *array, size_t size)
 }
 
 /**
- * Esta función inserta una nodo en una lista simplemente 
+ * Esta función inserta una nodo en una lista simplemente
  * ligada y ordenada ascendentemente.
  * Después de la insersión la lista conserva su orden.
  * @param list - apuntador a la lista donde ser realizará la incersión
@@ -226,19 +226,52 @@ int anagrams(char *string1, char *string2)
     return false;
 }
 
+
+unsigned int multiply(unsigned int a, unsigned int b) {
+  unsigned int result = 0;
+
+  while(a > 0) {
+    if(a & 1 ) {
+      result += b;
+    }
+    // divide a entre 2 y trunca el resultado
+    a = a >> 1;
+    // multiplica b por 2
+    b = b << 1;
+  }
+
+  return result;
+}
 /**
  * Esta genera la tabla de del método de multiplicación egipcia.
  * Regresa un arreglo unidimencional de enteros.
  */
 long long *egypcian_multiplication(int n, int _m)
 {
+  struct list_node *list;
+
+  int i = 1;
+  while(i <= n){
+    i = multiply(i,2);
+    printf("%i\n",i);
+    struct list_node *valor;
+    valor*.value = i;
+    printf("%d\n",valor*.value );
+    list_insert_node(&list,valor);
+  }
     return NULL;
 }
 
 /**
- * Para un arreglo de enteros calcula el máximo valor 
+ * Para un arreglo de enteros calcula el máximo valor
  */
 long long calc_max_sum(int *array, size_t size)
 {
     return 0;
+}
+
+int main() {
+  /* code */
+  egypcian_multiplication(5,4);
+
 }
