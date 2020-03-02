@@ -172,7 +172,7 @@ void push_pointer(void *old, struct list_pointer **list)
  */
 int list_has_cycle(struct list_node *list)
 {
-    /*usamos el algoritmo de floyd (la tortuga y el conejo) 
+    /*usamos el algoritmo de floyd (la tortuga y el conejo)
     El conejo siempre irá por delante de la tortuga, si la tortuga avanza un paso, el conejo se mueve 2.
     eventualmente se alcanzarán y ahí es donde sabemos que habrá un ciclo
     */
