@@ -15,6 +15,22 @@
 #include <assert.h>
 #include <stdbool.h>
 
+struct list_node *getByIndex(struct list_node *list, int index)
+{
+    struct list_node *current = list;
+
+    int count = 0;
+    while (current != NULL)
+    {
+        if (count == index)
+            return current;
+        count++;
+        current = current->next;
+    }
+
+    return current;
+}
+
 /**
  * 
  */
@@ -78,34 +94,35 @@ void heap_sort(int *array, size_t size)
  */
 void list_insert_node(struct list_node **list, struct list_node *new_node)
 {
+    /*Si ambos son nulos, la prueba pasa por vacuidad*/
+    /*si no hay nada en la lista, el nodo se incializa como la lista (insercion simple)*/
+    if (*list == NULL && new_node != NULL)
+    {
+        new_node->next = *list;
+        *list = new_node;
+        return;
+    }
+    /*caso 3 la lista esta llena y el nodo no es null*/
     if (*list != NULL && new_node != NULL)
     {
-        struct list_node *aux = *list;
-        if ((*list)->value > new_node->value)
+        if ((*list)->value > new_node->value) //insercion en la cabeza, el valor es mas chico que head
         {
             new_node->next = *list;
             *list = new_node;
         }
         else
         {
-            while (aux->next != NULL && new_node->value >= (*list)->next->value)
+            struct list_node *actual; //creamos un temporal para iterar que apunte a la cabeza
+            actual = *list;
+            while (actual->next != NULL &&
+                   actual->next->value < new_node->value)
             {
-                aux = aux->next;
+                actual = actual->next; //pescamos la referencia inmediata menor donde irá new_node
             }
-            new_node->next = aux->next;
-            aux->next = new_node;
+            new_node->next = actual->next; //asignamos los apuntadores el siguiente del nuevo es el siguiente del anterior
+            actual->next = new_node;       //el siguiente del anterior es el siguiente del nuevo
+            return;                        //acabamos
         }
-
-        //printf("ELSE %d", aux->value);
-    }
-    else if (*list == NULL && new_node != NULL)
-    {
-        new_node->next = *list;
-        *list = new_node;
-    }
-    else
-    {
-        return;
     }
 }
 
@@ -166,6 +183,16 @@ int list_has_cycle(struct list_node *list)
  */
 int anagrams(char *string1, char *string2)
 {
+    if (string1 != NULL && string2 != NULL)
+    {
+        int sizeStr1 = strlen(string1);
+        int sizeStr2 = strlen(string2);
+        if (sizeStr1 != sizeStr2)
+        {
+            printf("Las palabras son de tamaños diferentes");
+            return false;
+        }
+    }
     return false;
 }
 
