@@ -268,11 +268,11 @@ unsigned int multiply(unsigned int a, unsigned int b)
  */
 long long *egypcian_multiplication(int n, int _m)
 {
+    /*while (i <= n)
+    {
     struct list_node *list;
 
     int i = 1;
-    /*while (i <= n)
-    {
         i = multiply(i, 2);
         struct list_node *valor = (struct list_node *)malloc(sizeof(struct list_node));
         printf("%i\n", i);
