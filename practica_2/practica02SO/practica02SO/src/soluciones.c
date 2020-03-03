@@ -244,21 +244,23 @@ int anagrams(char *string1, char *string2)
     return false;
 }
 
+unsigned int multiply(unsigned int a, unsigned int b)
+{
+    unsigned int result = 0;
 
-unsigned int multiply(unsigned int a, unsigned int b) {
-  unsigned int result = 0;
-
-  while(a > 0) {
-    if(a & 1 ) {
-      result += b;
+    while (a > 0)
+    {
+        if (a & 1)
+        {
+            result += b;
+        }
+        // divide a entre 2 y trunca el resultado
+        a = a >> 1;
+        // multiplica b por 2
+        b = b << 1;
     }
-    // divide a entre 2 y trunca el resultado
-    a = a >> 1;
-    // multiplica b por 2
-    b = b << 1;
-  }
 
-  return result;
+    return result;
 }
 /**
  * Esta genera la tabla de del método de multiplicación egipcia.
@@ -266,17 +268,18 @@ unsigned int multiply(unsigned int a, unsigned int b) {
  */
 long long *egypcian_multiplication(int n, int _m)
 {
-  struct list_node *list;
+    struct list_node *list;
 
-  int i = 1;
-  while(i <= n){
-    i = multiply(i,2);
-    printf("%i\n",i);
-    struct list_node *valor;
-    valor*.value = i;
-    printf("%d\n",valor*.value );
-    list_insert_node(&list,valor);
-  }
+    int i = 1;
+    while (i <= n)
+    {
+        i = multiply(i, 2);
+        struct list_node *valor = (struct list_node *)malloc(sizeof(struct list_node));
+        printf("%i\n", i);
+        valor->value = i;
+        printf("%d\n", valor->value);
+        list_insert_node(&list, valor);
+    }
     return NULL;
 }
 
@@ -288,8 +291,7 @@ long long calc_max_sum(int *array, size_t size)
     return 0;
 }
 
-int main() {
-  /* code */
-  egypcian_multiplication(5,4);
-
-}
+/*int main()
+{
+    egypcian_multiplication(5, 4);
+}*/
