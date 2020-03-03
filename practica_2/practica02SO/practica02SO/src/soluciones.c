@@ -271,7 +271,7 @@ long long *egypcian_multiplication(int n, int _m)
     struct list_node *list;
 
     int i = 1;
-    while (i <= n)
+    /*while (i <= n)
     {
         i = multiply(i, 2);
         struct list_node *valor = (struct list_node *)malloc(sizeof(struct list_node));
@@ -279,7 +279,7 @@ long long *egypcian_multiplication(int n, int _m)
         valor->value = i;
         printf("%d\n", valor->value);
         list_insert_node(&list, valor);
-    }
+    }*/
     return NULL;
 }
 
