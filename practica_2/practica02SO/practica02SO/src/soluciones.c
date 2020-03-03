@@ -78,11 +78,47 @@ struct list_node *list_create_copy(struct list_node *list)
 
     return resultado;
 }
+/*funcion para ajustar los elementos del heap a partir del nodo i*/
+void heapify(int *array, size_t size, int i)
+{
+    int mayor;
+    int temporal;
+    int l = 2 * i + 1; //hijos izquierdos
+    int r = 2 * i + 2; //hijos deremos
+    if (l < size && array[l] > array[i])
+        mayor = l;
+    else
+        mayor = i;
+
+    if (r < size && array[r] > array[mayor])
+        mayor = r;
+    if (mayor != i)
+    {
+        temporal = array[i];
+        array[i] = array[mayor];
+        array[mayor] = temporal;
+        heapify(array, size, mayor);
+    }
+}
 /**
  * Implementación del algoritmo de ordenación heapsort
  */
 void heap_sort(int *array, size_t size)
 {
+    int i;
+    /*indexamos el array*/
+    for (i = size / 2 - 1; i >= 0; i--)
+        heapify(array, size, i);
+
+    i = 0;
+    for (i = size - 1; i >= 0; i--)
+    {
+        int temp = array[0]; //hacemos swap con el final y la raiz
+        array[0] = array[i];
+        array[i] = temp;
+
+        heapify(array, i, 0); //reajustamos
+    }
 }
 
 /**
