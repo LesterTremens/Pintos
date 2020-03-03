@@ -78,11 +78,47 @@ struct list_node *list_create_copy(struct list_node *list)
 
     return resultado;
 }
+/*funcion para ajustar los elementos del heap a partir del nodo i*/
+void heapify(int *array, size_t size, int i)
+{
+    int mayor;
+    int temporal;
+    int l = 2 * i + 1; //hijos izquierdos
+    int r = 2 * i + 2; //hijos deremos
+    if (l < size && array[l] > array[i])
+        mayor = l;
+    else
+        mayor = i;
+
+    if (r < size && array[r] > array[mayor])
+        mayor = r;
+    if (mayor != i)
+    {
+        temporal = array[i];
+        array[i] = array[mayor];
+        array[mayor] = temporal;
+        heapify(array, size, mayor);
+    }
+}
 /**
  * Implementación del algoritmo de ordenación heapsort
  */
 void heap_sort(int *array, size_t size)
 {
+    int i;
+    /*indexamos el array*/
+    for (i = size / 2 - 1; i >= 0; i--)
+        heapify(array, size, i);
+
+    i = 0;
+    for (i = size - 1; i >= 0; i--)
+    {
+        int temp = array[0]; //hacemos swap con el final y la raiz
+        array[0] = array[i];
+        array[i] = temp;
+
+        heapify(array, i, 0); //reajustamos
+    }
 }
 
 /**
@@ -244,40 +280,114 @@ int anagrams(char *string1, char *string2)
     return false;
 }
 
+unsigned long long multiply(unsigned long long a, unsigned long long b)
+{
+    unsigned long long result = 0;
 
-unsigned int multiply(unsigned int a, unsigned int b) {
-  unsigned int result = 0;
-
-  while(a > 0) {
-    if(a & 1 ) {
-      result += b;
+    while (a > 0)
+    {
+        if (a & 1)
+        {
+            result += b;
+        }
+        // divide a entre 2 y trunca el resultado
+        a = a >> 1;
+        // multiplica b por 2
+        b = b << 1;
     }
-    // divide a entre 2 y trunca el resultado
-    a = a >> 1;
-    // multiplica b por 2
-    b = b << 1;
-  }
-
-  return result;
+    return result;
 }
+
+struct list_node *listaVal( int n)
+{
+  struct list_node *list =(struct list_node *)malloc(sizeof(struct list_node));
+  struct list_node *valor = (struct list_node *)malloc(sizeof(struct list_node));
+  int i = 1;
+  valor -> value = i;
+  push_front(valor->value,&list);
+  while(i <= n)
+  {
+    i = multiply(i,2);
+    valor->value = i;
+    if(i <= n)
+    {
+      //printf("%d\n", valor->value);
+      push_front(valor->value,&list);
+    }
+  }
+  return list;
+}
+
 /**
  * Esta genera la tabla de del método de multiplicación egipcia.
  * Regresa un arreglo unidimencional de enteros.
  */
-long long *egypcian_multiplication(int n, int _m)
+long long *egypcian_multiplication(int n, int m)
 {
-  struct list_node *list;
-  struct list_node *valor = malloc
-  int i = 1;
-  while(i <= n){
-    i = multiply(i,2);
-    printf("%i\n",i);
-    valor -> value = i
-    printf("%d\n",valor -> value );
-    list_insert_node(&list,valor);
-  }
-    return NULL;
+    struct list_node *listC =(struct list_node *)malloc(sizeof(struct list_node));
+    struct list_node *listV = listaVal(n);
+    long long sum = 0;
+    long long vl = listV -> value;
+    push_front(vl, &listC);
+    long long sumF = 0;
+    long long *resultado;
+    long long len = 0;
+    long long con = 1;
+
+    while(sum != n)
+    {
+      printf("%lld\n",vl );
+      if(vl < n){
+        listV = listV -> next;
+        vl += listV -> value;
+        push_front(listV -> value, &listC);
+        printf("%lld\n",vl );
+      }
+      if(vl > n){
+        vl -= listV -> value;
+        pop(&listC);
+        listV = listV -> next;
+        vl += listV -> value;
+        push_front(listV -> value, &listC);
+        printf("%lld\n",vl);
+      }
+      if(vl == n){
+        sum = vl;
+        printf("Listo %lld\n",vl);
+      }
+    }
+    len = list_length(listC);
+    printf("Soy la lista y mi tmañano es %lld\n", len );
+    resultado = (long long*)malloc(sizeof(long long*));
+    resultado[0] = len +1;
+    while(listC)
+    {
+      printf("%lld\n",(long long)listC -> value );
+      if(listC -> value != 0)
+      {
+        sumF += multiply(listC -> value , m);
+        resultado[con] = multiply(listC -> value , m);
+        con ++;
+
+        printf("%lld\n",sumF );
+      }
+      listC = listC -> next;
+    }
+    resultado[len] = sumF;
+    for (size_t i = 0; i < sizeof(resultado); i++) {
+      printf(" Aqui %lld\n",resultado[i]);
+      /* code */
+    }
+    free(resultado);
+    return resultado;
 }
+
+
+
+
+/**int findSuma(struct list *list, int n){
+
+}*/
 
 /**
  * Para un arreglo de enteros calcula el máximo valor
@@ -287,8 +397,7 @@ long long calc_max_sum(int *array, size_t size)
     return 0;
 }
 
-int main() {
-  /* code */
-  egypcian_multiplication(5,4);
-
+int main()
+{
+    egypcian_multiplication(13, 238);
 }

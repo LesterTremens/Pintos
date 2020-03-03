@@ -809,7 +809,7 @@ static int ref_ind(struct list_node* list, struct list_node* node) {
   if (node == NULL) {
     return -1;
   }
-  
+
   int i=0;
   while (list != NULL) {
     if (list == node) {
@@ -818,7 +818,7 @@ static int ref_ind(struct list_node* list, struct list_node* node) {
     list = list->next;
     i++;
   }
-  
+
   return -1;
   }*/
 
