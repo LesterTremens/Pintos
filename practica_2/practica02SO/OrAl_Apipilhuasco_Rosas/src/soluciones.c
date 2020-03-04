@@ -315,6 +315,8 @@ struct list_node *listaVal( int n)
       push_front(valor->value,&list);
     }
   }
+  free_list(list);
+  free_list(valor);
   return list;
 }
 
@@ -336,12 +338,12 @@ long long *egypcian_multiplication(int n, int m)
 
     while(sum != n)
     {
-      printf("%lld\n",vl );
+      //printf("%lld\n",vl );
       if(vl < n){
         listV = listV -> next;
         vl += listV -> value;
         push_front(listV -> value, &listC);
-        printf("%lld\n",vl );
+        //printf("%lld\n",vl );
       }
       if(vl > n){
         vl -= listV -> value;
@@ -349,36 +351,33 @@ long long *egypcian_multiplication(int n, int m)
         listV = listV -> next;
         vl += listV -> value;
         push_front(listV -> value, &listC);
-        printf("%lld\n",vl);
+        //printf("%lld\n",vl);
       }
       if(vl == n){
         sum = vl;
-        printf("Listo %lld\n",vl);
+        //printf("Listo %lld\n",vl);
       }
     }
-    len = list_length(listC);
-    printf("Soy la lista y mi tmañano es %lld\n", len );
-    resultado = (long long*)malloc(sizeof(long long*));
+
+    len = list_length(listC) + 1;
+    //printf("Soy la lista y mi tmañano es %lld\n", len );
+    resultado = (long long*)malloc(len * sizeof(long long*));
     resultado[0] = len +1;
     while(listC)
     {
-      printf("%lld\n",(long long)listC -> value );
+      //printf("%lld\n",(long long)listC -> value );
       if(listC -> value != 0)
       {
         sumF += multiply(listC -> value , m);
         resultado[con] = multiply(listC -> value , m);
         con ++;
-
-        printf("%lld\n",sumF );
+        //printf("%lld\n",sumF );
       }
       listC = listC -> next;
     }
     resultado[len] = sumF;
-    for (size_t i = 0; i < sizeof(resultado); i++) {
-      printf(" Aqui %lld\n",resultado[i]);
-      /* code */
-    }
     free(resultado);
+    free_list(listC);
     return resultado;
 }
 
@@ -395,9 +394,4 @@ long long *egypcian_multiplication(int n, int m)
 long long calc_max_sum(int *array, size_t size)
 {
     return 0;
-}
-
-int main()
-{
-    egypcian_multiplication(13, 238);
 }
