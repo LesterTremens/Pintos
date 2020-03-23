@@ -1,0 +1,16 @@
+#! /usr/bin/env bash
+
+if [ -z "${1}" ]; then
+  print "No instruction provided"
+fi
+
+if [ "${1}" == "docker-build" ]; then
+  docker build -t so-2020-2-pintos .
+  exit 0
+fi
+
+if [ "${1}" == "enter" ]; then
+    docker run -i -t -v $PWD:/pintos johnstarich/pintos:v1.0 bash
+    # johnstarich/pintos:v1.0
+  exit 0
+fi

@@ -1,0 +1,9 @@
+#! /usr/bin/env bash
+
+sed -i 's/bochs/qemu/' /pintos-2020-2/src/*/Make.vars &&
+sed -i 's/\/usr\/class\/cs140\/pintos\/pintos\/src/\/pintos-2020-2\/src/' /pintos-2020-2/src/utils/pintos-gdb && \
+sed -i 's/LDFLAGS/LDLIBS/' /pintos-2020-2/src/utils/Makefile && \
+sed -i 's/\$sim = "bochs"/$sim = "qemu"/' /pintos-2020-2/src/utils/pintos && \
+sed -i 's/kernel.bin/\/pintos-2020-2\/src\/threads\/build\/kernel.bin/' /pintos-2020-2/src/utils/pintos && \
+sed -i "s/my (@cmd) = ('qemu');/my (@cmd) = ('qemu-system-x86_64');/" /pintos-2020-2/src/utils/pintos && \
+sed -i 's/loader.bin/\/pintos-2020-2\/src\/threads\/build\/loader.bin/' /pintos-2020-2/src/utils/Pintos.pm
