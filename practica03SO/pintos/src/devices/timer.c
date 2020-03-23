@@ -90,12 +90,11 @@ struct sleep_thread
   struct thread *thread;
   int64_t wake_up_tick;
   struct list_elem elem;
-}
+};
 
 /* Sleeps for approximately TICKS timer ticks.  Interrupts must
    be turned on. */
-void
-timer_sleep(int64_t ticks)
+void timer_sleep(int64_t ticks)
 {
 
   //int64_t start = timer_ticks ();
@@ -109,10 +108,10 @@ timer_sleep(int64_t ticks)
   int64_t start = timer_ticks();
   st.wake_up_tick = start + ticks;
 
-  enum initr_level old_level = intr_disable();
+  enum intr_level old_level = intr_disable();
   list_push_back(&sleep_threads, &(st.elem));
   thread_block();
-  initr_set_level(old_level);
+  intr_set_level(old_level);
 }
 
 /* Sleeps for approximately MS milliseconds.  Interrupts must be
@@ -186,7 +185,7 @@ timer_interrupt(struct intr_frame *args UNUSED)
   thread_tick();
 
   struct list_elem *e;
-  for (e = list_begin(&sleep_threads); e != (&sleep_threads);)
+  for (e = list_begin(&sleep_threads); e != list_end(&sleep_threads);)
   {
     struct sleep_thread *st = list_entry(e, struct sleep_thread, elem);
     e = list_next(e);
