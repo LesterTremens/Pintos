@@ -12,4 +12,22 @@ Windows usa su propia APi para la creación de PIPES. en lugar de usar pipe(..)-
 createPipe necesita 4 params
 
 
+Los pipes ordinarios en windows y linux, estan atados a la relación padre e hijo para poder tener comunicación. solo se pueden
+usar para comunicar procesos en la misma computadora. además son unidireccionales
 
+
+pipes con nombre: mecanismo simple para comunicarse entre dos procesos, los pipes ordinarios estan atados a la relacon padre-hijo
+y su tiempo de vida esta atado a lo tiempos de vida de padre-hijo. permiten la comunicación entre procesos, no solo con relaciones 
+padre-hijo
+
+Los pipes con nombre en UNIX, se manejan como FirstInFirstOut. son creados en el SIstema de archivos como un archivo standart
+al hacer esto, lo podemos operar usando los llamados al sistema ordinarios: Open, read, write, close
+Los pipes siguen existiendo cuando el proceso de comunicación termina, es necesario eliminarlos de forma explícita.
+los procesos deben vivir en la misma maquina, para comunicar dos computadoras, se utilizarán sockets
+
+/etc/services contiene la lista con puertos bien conocidos asociados a servicios
+
+SOCKET: 
+
+
+ipTables nos permite cerrar todos los puertos.No permite crear tambien firewalls en linux
