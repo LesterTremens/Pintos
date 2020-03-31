@@ -1,0 +1,15 @@
+Es UNIX todo se maneja como archivos
+
+los pipes son un tipo especial de archivo, pueden usarse haciendo llamados el sistema ordinarios, lo que hacen es escribir y leer en un archivo
+
+pipe(int fs[]) //arreglo de identificadores
+
+2 tipos:
+Pipes ordinarios o anónimos, esto dentro del entorno de los procesos de windows, se comportan de manera similar a los pipes en unix y emplean la relación padre e hijo entre procesos
+que se comunican.
+
+Windows usa su propia APi para la creación de PIPES. en lugar de usar pipe(..)-read/write usa createpipe y readfile-writefile
+createPipe necesita 4 params
+
+
+
