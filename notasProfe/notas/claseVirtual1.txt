@@ -32,6 +32,7 @@ SOCKET:
 
 ipTables nos permite cerrar todos los puertos.No permite crear tambien firewalls en linux
 
+(basicamente emision y transmision intensiva)
 duplex: bidireccional en ambos sentidos
 
 semiduplex: bidireccional en un sentido
