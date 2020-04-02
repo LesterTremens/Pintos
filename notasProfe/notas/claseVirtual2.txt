@@ -1,0 +1,39 @@
+Los servicios más conocidos tienen puertos pre-asignados, también llamados
+puertos estandar.los puertos son conexiones lógicas en la computadora.
+
+Java tiene un conjunto de clase para poder manejar con mayor facilidad
+la implementación de cierto tipo de aplicaciones.
+
+Existen dos tipos de sockets para la comunicación entre procesos en distintos 
+equipos.
+
+Sockets orientados a conexión: Relacionados con el protocolo TCP.
+
+Sockets no orientados a conexión: relacionados con UDP, cuenta con sockets 
+multicast.
+
+El manejo de los sockets no está restringido a la comunicación 
+entre computadoras en la red.
+
+127.0.0.1 -> loopback. Dirección siempre activa, necesaria para la
+comunicación de sockets en una sola PC.
+
+
+Los sockets estan limitados a envio de bytes. (información no estructurada)
+
+
+LLAMADAS A PROCEDIMIENTOS REMOTOS (RPC)
+
+cuando el servidor recibe la petición, el servicio envía de regreso el mensaje por separado.
+
+
+el servicio NFS ofrece RPC. a través de esas.
+
+Los RPC solo acceden a la información sobre demanda.
+
+con las RPC se puede tener comunicación entre sistemas con una representación de la información diferente
+
+
+
+
+
