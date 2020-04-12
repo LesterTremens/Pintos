@@ -8,8 +8,8 @@
 
 >> Fill in the names and email addresses of your group members.
 
-FirstName LastName <email@domain.example>
-FirstName LastName <email@domain.example>
+Orlando Apipilhuasco <OrlandoApipilhuasco@ciencias.unam.mx>
+Ricardo Garcia <email@domain.example>
 
 ---- PRELIMINARIES ----
 
@@ -30,23 +30,49 @@ ALARM CLOCK
 >> `struct' member, global or static variable, `typedef', or
 >> enumeration.  Identify the purpose of each in 25 words or less.
 
+static struct list sleep_threads;
+struct sleep_thread
+{
+  struct thread *thread;
+  int64_t wake_up_tick;
+  struct list_elem elem;
+};
+
+Creamos una estructura para guardar en una lista los threads que
+van a estar dormidos, que en su interior tendra su lista de elementos y sabremos si estan dormidos o despiertos.
+
+
 ---- ALGORITHMS ----
 
 >> A2: Briefly describe what happens in a call to timer_sleep(),
 >> including the effects of the timer interrupt handler.
 
+Primero se va a ver si las interrupciones estan prendidas.
+Crearemos una lista de threads que estaran dormidos
+nos situaremos en el thread actual y le pondremos el numero de
+ticks que estara dormido lo meteremos a nuestra lista de dormidos
+bloqueamos el thread y lo tenemos como inaccesible por el momento.
+
+
 >> A3: What steps are taken to minimize the amount of time spent in
 >> the timer interrupt handler?
+En ves de estar checando cada momento si se debe despertar cierto
+proceso, se mete a la lista con el numero de ticks, entonces cuando pasen los ticks se despertara y se desbloqueara si la necesidad de andar checando si termino cada tick.
 
 ---- SYNCHRONIZATION ----
 
 >> A4: How are race conditions avoided when multiple threads call
 >> timer_sleep() simultaneously?
 
+Al crear la lista de threads se trabaja con el hilo actual que se guarda en la lista de hilos, una vez se termina de trabajar, y llegan a llamar otra vez la funcion, se añade un nuevo tread dormido, es decir nos aseguramos que en la zona critica nadie interfiera. 
+
 >> A5: How are race conditions avoided when a timer interrupt occurs
 >> during a call to timer_sleep()?
+
+De la misma manera que en A4
 
 ---- RATIONALE ----
 
 >> A6: Why did you choose this design?  In what ways is it superior to
 >> another design you considered?
+No es el mejor diseño, pero lo resuelve de manera un poco mas  eficiente al no tener que checar a cada momento, creo que se soluciona mejor con semaforos pero son mas complejos
