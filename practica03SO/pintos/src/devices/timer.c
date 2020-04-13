@@ -92,6 +92,22 @@ struct sleep_thread
   struct list_elem elem;
 };
 
+/*
+
+   Implementamos un list_less_func aqui se comparan dos listas de elementos, dado un apuntador auxiliar, para nuestro caso, aux nose usa
+
+*/
+static list_less_func timer_compare_ticks;
+
+static bool
+timer_compare_ticks(const struct list_elem *a, const struct list_elem *b,
+                    void *aux UNUSED)
+{
+  struct sleep_thread *t1 = list_entry(a, struct sleep_thread, elem);
+  struct sleep_thread *t2 = list_entry(b, struct sleep_thread, elem);
+  return t1->wake_up_tick < t2->wake_up_tick;
+}
+
 /* Sleeps for approximately TICKS timer ticks.  Interrupts must
    be turned on. */
 void timer_sleep(int64_t ticks)
@@ -109,7 +125,10 @@ void timer_sleep(int64_t ticks)
   st.wake_up_tick = start + ticks;
 
   enum intr_level old_level = intr_disable();
-  list_push_back(&sleep_threads, &(st.elem));
+  // list_push_back(&sleep_threads, &(st.elem));
+  // thread_block();
+  list_insert_ordered(&sleep_threads, &(st.elem),
+                      timer_compare_ticks, NULL);
   thread_block();
   intr_set_level(old_level);
 }
