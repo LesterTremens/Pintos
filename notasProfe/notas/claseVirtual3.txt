@@ -1,0 +1,73 @@
+se evaluaran las prácticas + reflexiones de final de cada tema
+
+Las RPC deben garantizar la ejecución  del proceso al menos una vez.
+
+Se puede implementar alguna estructura en memoria que registre las peticiones 
+de esta manera podríamos garantizar que se ha ejecutado al menos una ocasión.
+
+(para a lo mas una vez)
+
+Se pueden implementar acuses de recibo para ya no repetir el procedimiento
+(para exactamente una vez)
+
+Antes se requería un mecanismo para poder saber en que puerto se ejecutaba 
+el RPC. el cliente hacia la petición , el servidor respondía con la dirección
+del puerto al que debe hacer la petición y el cliente hacia el llamado
+a la RPC particular.
+
+Resumen
+
+Un proceso es un programa en ejecución
+
+El estado del proceso se registra en el program counter.
+
+una forma de visualizarlo es mediante 4 secciones: seccion de datos, heap
+, stack y texto
+
+
+Existen multiples estados: En espera, listo para ser ejecutado, 
+en estado terminado, despachado.
+
+El kernel usa el PCB - bloque de control de proceso.
+
+Un cambio de contexto es cuando un proceso en ejecucion se deja de ejecutar,
+para dar paso a un proceso nuevo para que se ejecute.
+
+
+Los procesos se pueden comunicar por memoria compartida o envío de mensajes
+
+Existen dos tipos de pipes: Ordinarios y con nombre
+
+Los ordinarios estan asociados a la relación padre-hijo
+
+los Pipes con nombre permiten la comunicación entre multiples procesos no 
+necesariamente padre-hijo.
+
+los pipes ordinarios en UNIX tienen implementado un buffer con un final de lectura
+y un final de escritura.
+
+Los pipes son unidireccionales. Para que el hijo pueda estableces comunicación
+requiere otro pipe.
+
+En windows existen Pipes anónimos y pipes con nombre. 
+
+En caso windows, los segundos ofrecen comunicación más amplia que en unix.
+Debido a que son reutilizables
+
+
+INVESTIGAR: 
+-Complicaciones de la computación concurrente a un sistema operativo
+-En un sistema concurrente con alta probabilidad de fallo, como garantizar 
+la ejecución de un RPC.
+-Como lleva acabo el kernel el cambio de contexto.
+-Diagramar un caso de procesos
+-relación de systemd e init.
+-dar un ejemplo de Pipes ordinarios > con nombre y al reves
+-Casos de los RPC para que funcionen. Buscar un uso de RPC sin ningun mecanismo
+ 
+--------------------------------------------
+
+Multiprogramación:
+
+Tener varios procesos ejecutandose al mismo tiempo maximizando el uso del cpu
+
