@@ -1,0 +1,100 @@
+Calendarizador:
+
+Propósito: Optimizar los tiempos de procesador.
+
+Garantizar que el procesador siempre esté en uso.
+
+Hilos de ejecución:
+
+En los SO modernos, los hilos son los que se planifican, no los procesos.
+
+Un núcleo es una unidad básica de CPU. Los procesos se ejecutan en los núcleos
+
+El objetivo de la multiprogramación  es tener múltiples procesos ejecutandose al mismo tiempo. Con la mutiprogramación, evitamos los tiempos muertos del procesador.
+
+
+
+Los procesos de ejecución alternan -> primero una rafaga de uso de CPU y después una ráfaga de espera/salida. (Una ráfaga es cuando el proceso hace uso sucesivo/continuo de CPU o de entrada/salida)
+
+Las ráfagas son medibles!<-Varian dependiendo los procesos. Además tienden a presentar una curva duración x frecuencia (duración vs frecuencia)
+
+
+
+______________________________________________________________________________________________________
+
+Condiciones de carrera:
+
+Mientras un proceso está en ejecución, si llega un proceso con mayor preferencia, se atiende al segundo.
+
+Si el segundo intenta leer información, habrá inconsistencias.
+
+Para evitar incosistencias se tiene que especificar en el kernel la preferencia.
+
+-investigar kernel con preferencia y sin preferencia-
+
+Los kernel sin preferencia no implementan condiciones de carrera. 
+El proceso tiene todo el tiempo de CPU hasta que se completa.
+
+Los SO modernos utilizan el módelo con preferencia cuando se ejecuta el modo Kernel. Debido a la existencia de las interrupciones
+
+El programador debe ser cuidadoso al manejar las interrupciones, aunque no es algo que ocurra con frecuencia.
+
+
+Dentro de la planificación, hay un componente (despachador) es el que le da el control de cPU al proceso seleccionado.
+
+El despachador es el responsable de hacer los cambios de contexto.  Debe de ser eficiente porque le estamos dando tiempo de CPU.
+
+La letencia de despacho , es el tiempo que le toma al despachador de atender a un proceso al otro.
+
+Para poder ver los cambios de contexto, debemos ejecutar:
+
+
+....
+
+
+vmstat > nos da info sobre cambios de contexto y de algunos elementos que tienen que ver con lo referente a los procesos como memoria inactiva, forks etc
+
+proc > guarda en forma de directorios los procesos activos, ese directorio, contiene información relacionada con el
+proceso, en particular contiene información de la memoria, identificador de usuario, grupos, cambios de contexto
+
+
+
+
+cambios involuntarios de contexto. se pueden deber por interrupciones del sistema o por culpa de los algoritmos de 
+planificacion
+
+
+Cambios de contexto voluntarios.
+
+ voluntary:    2516743
+nonvoluntary:	258023
+
+
+
+Algoritmos de planificación del CPU:
+
+El rango de uso del cpu va del 0 al 100%. En un sistema que usamos como el de todos los días, el uso del procesador 
+es de poco mas del 40%
+de igual forma se puede medir por rendimiento (#procesos/tiempo)
+
+Otro aspecto sería la tasa de retorno (tiempo que le lleva a un proceso completar su ejecución)
+No incluye solo el tiempo en CPU, sino también, los tiempos en la cola de "Listo" y los tiempos de la cola 
+"I/O"-entrada y salida
+
+
+Un algoritmo de planificación bueno, nos ayudará a disminuir, tiempo de espera, de retorno y de respuesta.
+
+Bajo ciertas circunstancias se debe optimizar valores máximos y mínimos
+
+Sistema con respuesta consistente > rápido pero inconsistente.
+
+Algoritmo FIFO
+
+Primero en entrar, primero en atender.
+
+
+
+
+
+
+
