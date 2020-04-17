@@ -1,0 +1,46 @@
+Algoritmos de planificación.
+
+Algoritmo FIFO (revisar bibliografía) (FCFS)
+
+Si p1,p2,p3 procesos con tiempos de rafaga 24,3,3 respectivamente, la suma de tiempos entre el numero de procesos, nos da el tiempo promedio
+
+Si llegaran P2,p3,p1. entonces P2 se atiende en 0 seg, p3 en 3 y p1 en 6 dando total de 3 ms.
+
+Este algoritmo es inestable en tiempo de espera.
+
+Todos los procesos de rafaga CPU corta se atienden en seguida.
+
+En sistemas interactivos, este algoritmo resulta impráctico porque se requiere que cada proceso tenga intervalos de tiempo regulares
+
+Su implementación es simple, pero es inestable y nos puede generar muchos tiempos muertos de procesador.
+
+________________________________________________
+Algoritmo de trabajo mas corto primero (SJF - short job first)
+Cada proceso tiene asignado la longitud de la siguiente ráfaga de cPU que va usar el proceso, cuando el procesador está disponible, se atiende al de menor tiempo.
+Si en dos procesos se tiene el mismo tiempo de ráfaga, se ejecuta FCFS
+
+Proc	MS //tiempo de proceso de la siguiente rafga del proceso actual
+p1	6	
+P2	8
+P3	7
+p4	3
+
+   3           9           16     24
+---|-----------|-----------|-------|
+P1    P2	   P3		P4
+
+
+FCFs tomaría 10 ms
+
+SJF tomaría 7 ms.
+
+
+para implementar se requiere intenrar preeveeer el tiempo de las ráfagas siguientes.
+
+Se hace mediante un promedio exponencial de las ráfagas anteriores.
+
+Si tn+1 el tiempo de la ráfaga siguiente. Ent tn+1= alfa(tn)+(1-alfa)Tn con Tn el tiempo que aproximamos para el tiempo en particular 
+	
+
+
+
