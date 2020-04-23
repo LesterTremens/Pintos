@@ -39,7 +39,13 @@ para implementar se requiere intenrar preeveeer el tiempo de las ráfagas siguie
 
 Se hace mediante un promedio exponencial de las ráfagas anteriores.
 
-Si tn+1 el tiempo de la ráfaga siguiente. Ent tn+1= alfa(tn)+(1-alfa)Tn con Tn el tiempo que aproximamos para el tiempo en particular 
+Si tn+1 el tiempo de la ráfaga siguiente. Ent tn+1= alfa(tn)+(1-alfa)Tn con Tn el tiempo estimado 
+para la rafaga actual
+tn es el tiempo observado
+alfa el peso del tiempo de rafaga actual
+
+
+
 	
 
 

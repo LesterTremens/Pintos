@@ -1,0 +1,7 @@
+SJF
+
+Puede dar preferencia al de periodo más corto de ejecució o de ráfaga.
+
+buscar SJF con preferencia y sin preferencia
+
+
