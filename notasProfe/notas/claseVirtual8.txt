@@ -1,0 +1,13 @@
+Ambito(elemnto?) de contencion del proceso si los hilos a nivel de usuario son 
+planificados por una biblioteca con modelo muchos a muchos.
+
+Ambito(Elemento) de contención del sistema: Los procesos a planificar son todos 
+los procesos del sistema.
+
+El cambio de planificacion de hilos cambia en modelos de multiprogramación
+
+multiprocesamiento heterogeneo= multiples cprocesadores para un sistema y que atiendan diferentes tareas
+
+helio x30 ejemplo de heterogeneo
+
+multiprocesamiento simetrico: opciones activas por default 

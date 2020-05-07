@@ -8,9 +8,6 @@
 #include "threads/synch.h"
 #include "threads/thread.h"
 
-//Agregamos la lista del kernel
-#include <kernel/list.h>
-
 /* See [8254] for hardware details of the 8254 timer chip. */
 
 #if TIMER_FREQ < 19
@@ -33,7 +30,6 @@ static void busy_wait(int64_t loops);
 static void real_time_sleep(int64_t num, int32_t denom);
 static void real_time_delay(int64_t num, int32_t denom);
 
-//Lista de espera del timer_sleep
 static struct list sleep_threads;
 struct list sleeping_list;
 
@@ -206,39 +202,27 @@ void timer_print_stats(void)
 static void
 timer_interrupt(struct intr_frame *args UNUSED)
 {
-  //Add
-  struct list_elem *pe;
-  struct thread *pt;
-  bool preempt = false;
-
   ticks++;
   thread_tick();
-
-  /*Acciones para 4.4BSD scheduler. */
   if (thread_mlfqs)
-    {
+  {
     thread_mlfqs_incr_recent_cpu();
     if (ticks % TIMER_FREQ == 0)
-      thread_mlfqs_refresh ();
-    else if(ticks % 4 == 0)
-    thread_mlfqs_update_priority(thread_current());
-    }
-
-  /*Checamos y despertamos thread dormidos*/
-  while(!list_empty(&sleep_threads))
+      thread_mlfqs_refresh();
+    else if (ticks % 4 == 0)
+      thread_mlfqs_update_priority(thread_current());
+  }
+  struct list_elem *e;
+  for (e = list_begin(&sleep_threads); e != list_end(&sleep_threads);)
+  {
+    struct sleep_thread *st = list_entry(e, struct sleep_thread, elem);
+    e = list_next(e);
+    if (st->wake_up_tick <= ticks)
     {
-      pe = list_front (&sleep_threads);
-      pt = list_entry (pe, struct thread, elem);
-      if(pt-> wakeup_ticks > ticks)
-        {
-          break;
-        }
-      list_remove (pe);
-      thread_unblock(pt);
-      preempt = true;
+      list_remove(&st->elem);
+      thread_unblock(st->thread);
     }
-  if (preempt)
-    intr_yield_on_return ();
+  }
 }
 
 /* Returns true if LOOPS iterations waits for more than one timer
