@@ -31,7 +31,6 @@ static void real_time_sleep(int64_t num, int32_t denom);
 static void real_time_delay(int64_t num, int32_t denom);
 
 static struct list sleep_threads;
-struct list sleeping_list;
 
 /* Sets up the timer to interrupt TIMER_FREQ times per second,
    and registers the corresponding interrupt. */
@@ -113,26 +112,25 @@ timer_compare_ticks(const struct list_elem *a, const struct list_elem *b,
    be turned on. */
 void timer_sleep(int64_t ticks)
 {
-  struct thread *cur_thread;
-  enum intr_level old_level;
 
-  ASSERT (intr_get_level () == INTR_ON);
+  //int64_t start = timer_ticks ();
 
-  if (ticks <= 0)
-    return;
+  ASSERT(intr_get_level() == INTR_ON);
+  //while (timer_elapsed (start) < ticks)
+  //  thread_yield ();
+  //FIXME aqui va tooodo
+  struct sleep_thread st;
+  st.thread = thread_current();
+  int64_t start = timer_ticks();
+  st.wake_up_tick = start + ticks;
 
-  old_level = intr_disable ();
-
-  /* Get current thread and set wakeup ticks. */
-  cur_thread = thread_current ();
-  cur_thread->wakeup_ticks = timer_ticks () + ticks;
-
-  /* Insert current thread to ordered sleeping list */
-  list_insert_ordered (&sleeping_list, &cur_thread->elem,
-                       thread_wakeup_ticks_less, NULL);
-  thread_block ();
-
-  intr_set_level (old_level);
+  enum intr_level old_level = intr_disable();
+  // list_push_back(&sleep_threads, &(st.elem));
+  // thread_block();
+  list_insert_ordered(&sleep_threads, &(st.elem),
+                      timer_compare_ticks, NULL);
+  thread_block();
+  intr_set_level(old_level);
 }
 
 /* Sleeps for approximately MS milliseconds.  Interrupts must be
@@ -204,14 +202,7 @@ timer_interrupt(struct intr_frame *args UNUSED)
 {
   ticks++;
   thread_tick();
-  if (thread_mlfqs)
-  {
-    thread_mlfqs_incr_recent_cpu();
-    if (ticks % TIMER_FREQ == 0)
-      thread_mlfqs_refresh();
-    else if (ticks % 4 == 0)
-      thread_mlfqs_update_priority(thread_current());
-  }
+
   struct list_elem *e;
   for (e = list_begin(&sleep_threads); e != list_end(&sleep_threads);)
   {

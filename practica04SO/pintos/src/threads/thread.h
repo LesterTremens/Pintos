@@ -26,8 +26,8 @@ typedef int tid_t;
 #define PRI_DEFAULT 31                  /* Default priority. */
 #define PRI_MAX 63                      /* Highest priority. */
 
-/* Thread prioriy donation. */
-#define PRIDON_MAX_DEPTH 9              /* Max depth of nested donation. */
+/* Hilo de donacion */
+#define PRIDON_MAX_DEPTH 9              /* Maxima donacion que úede dar el hilo */
 
 /* A kernel thread or user process.
 
@@ -94,19 +94,19 @@ struct thread
     char name[16];                      /* Name (for debugging purposes). */
     uint8_t *stack;                     /* Saved stack pointer. */
     int priority;                       /* Priority. */
-    int base_priority;                  /* Base priority for priority donation */
+    int base_priority;                  /* Base de la donacion que puede dar */
     struct list_elem allelem;           /* List element for all threads list. */
 
     /* Shared between thread.c, synch.c and timer.c. */
     struct list_elem elem;              /* List element. */
 
-    struct list locks;                  /* Locks held for priority donation. */
-    struct lock *lock_waiting;          /* Lock waiting on for priority donation. */
+    struct list locks;                  /* Lista para donacion prioritaria. */
+    struct lock *lock_waiting;          /* Bloqueo en espera de donacion  */
 
-    int nice;                           /* Niceness for 4.4BSD scheduler. */
-    fixed_t recent_cpu;                 /* Recent CPU for 4.4BSD scheduler. */
+    int nice;                           /* Para saber el niceness */
+    fixed_t recent_cpu;                 /* Saber el valor del CPU */
 
-    int64_t wakeup_ticks;               /* Wakeup ticks used by timer sleep */
+    int64_t wakeup_ticks;               /* No se*/
 
 
 #ifdef USERPROG

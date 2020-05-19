@@ -93,9 +93,7 @@ struct sleep_thread
 };
 
 /*
-
    Implementamos un list_less_func aqui se comparan dos listas de elementos, dado un apuntador auxiliar, para nuestro caso, aux nose usa
-
 */
 static list_less_func timer_compare_ticks;
 
@@ -156,7 +154,6 @@ void timer_nsleep(int64_t ns)
 
 /* Busy-waits for approximately MS milliseconds.  Interrupts need
    not be turned on.
-
    Busy waiting wastes CPU cycles, and busy waiting with
    interrupts off for the interval between timer ticks or longer
    will cause timer ticks to be lost.  Thus, use timer_msleep()
@@ -168,7 +165,6 @@ void timer_mdelay(int64_t ms)
 
 /* Sleeps for approximately US microseconds.  Interrupts need not
    be turned on.
-
    Busy waiting wastes CPU cycles, and busy waiting with
    interrupts off for the interval between timer ticks or longer
    will cause timer ticks to be lost.  Thus, use timer_usleep()
@@ -180,7 +176,6 @@ void timer_udelay(int64_t us)
 
 /* Sleeps execution for approximately NS nanoseconds.  Interrupts
    need not be turned on.
-
    Busy waiting wastes CPU cycles, and busy waiting with
    interrupts off for the interval between timer ticks or longer
    will cause timer ticks to be lost.  Thus, use timer_nsleep()
@@ -202,7 +197,14 @@ timer_interrupt(struct intr_frame *args UNUSED)
 {
   ticks++;
   thread_tick();
-
+  if (thread_mlfqs)
+  {
+    thread_mlfqs_incr_recent_cpu();
+    if (ticks % TIMER_FREQ == 0)
+      thread_mlfqs_refresh();
+    else if (ticks % 4 == 0)
+      thread_mlfqs_update_priority(thread_current());
+  }
   struct list_elem *e;
   for (e = list_begin(&sleep_threads); e != list_end(&sleep_threads);)
   {
@@ -237,7 +239,6 @@ too_many_loops(unsigned loops)
 
 /* Iterates through a simple loop LOOPS times, for implementing
    brief delays.
-
    Marked NO_INLINE because code alignment can significantly
    affect timings, so that if this function was inlined
    differently in different places the results would be difficult
@@ -254,7 +255,6 @@ static void
 real_time_sleep(int64_t num, int32_t denom)
 {
   /* Convert NUM/DENOM seconds into timer ticks, rounding down.
-
         (NUM / DENOM) s
      ---------------------- = NUM * TIMER_FREQ / DENOM ticks.
      1 s / TIMER_FREQ ticks

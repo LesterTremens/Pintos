@@ -1,4 +1,3 @@
-
 #include "threads/thread.h"
 #include <debug.h>
 #include <stddef.h>
@@ -356,12 +355,11 @@ thread_set_priority (int new_priority)
   struct thread *t = thread_current ();
   int old_priority = t->priority;
 
-  /* Always update base priority. */
+  /* Siempre se debe actualizar la base de prioridades */
   t->base_priority = new_priority;
 
-  /* Only update priority and test preemption if new priority
-     is smaller and current priority is not donated by another
-     thread. */
+  /* Solo se actualiza  si la prioridad nuevas es menor a la vieja
+     y si la prioridad actual no tiene alguna donacion */
   if (new_priority < old_priority && list_empty (&t->locks))
     {
       t->priority = new_priority;
@@ -378,7 +376,7 @@ thread_get_priority (void)
   return thread_current ()->priority;
 }
 
-/* Add a held lock to current thread. */
+/* Añade un bloqueo al thread actual*/
 void
 thread_add_lock (struct lock *lock)
 {
@@ -386,8 +384,8 @@ thread_add_lock (struct lock *lock)
   list_insert_ordered (&thread_current ()->locks, &lock->elem,
                        lock_priority_large, NULL);
 
-  /* Update priority and test preemption if lock's priority
-     is larger than current priority. */
+
+
   if (lock->max_priority > thread_current ()->priority)
     {
       thread_current ()->priority = lock->max_priority;
@@ -396,7 +394,7 @@ thread_add_lock (struct lock *lock)
   intr_set_level (old_level);
 }
 
-/* Remove a held lock from current thread. */
+/* Remueve los bloqueos d eun thread */
 void
 thread_remove_lock (struct lock *lock)
 {
@@ -407,13 +405,13 @@ thread_remove_lock (struct lock *lock)
   intr_set_level (old_level);
 }
 
-/* Donate current thread's priority to another thread. */
+/* Dona prioridad a otro thread */
 void
 thread_donate_priority (struct thread *t)
 {
   enum intr_level old_level = intr_disable ();
   thread_update_priority (t);
-  /* If thread is in ready list, reorder it. */
+
   if (t->status == THREAD_READY)
     {
       list_remove (&t->elem);
@@ -423,8 +421,7 @@ thread_donate_priority (struct thread *t)
   intr_set_level (old_level);
 }
 
-/* Update thread's priority. This function only update
-   priority and do not preempt. */
+/* Actualiza la prioridad del thread. */
 void
 thread_update_priority (struct thread *t)
 {
@@ -446,7 +443,7 @@ thread_update_priority (struct thread *t)
   intr_set_level (old_level);
 }
 
-/* Test if current thread should be preempted. */
+/* Verifica si se debe modificar el preemption*/
 void
 thread_test_preemption (void)
 {
@@ -489,7 +486,7 @@ thread_get_recent_cpu (void)
   return FP_ROUND (FP_MULT_MIX (thread_current ()->recent_cpu, 100));
 }
 
-/* Increase current thread's recent_cpu by 1. */
+/* Incrementa el valor del thread actual y el valor del cpu por 1 */
 void
 thread_mlfqs_incr_recent_cpu(void)
 {
@@ -502,7 +499,7 @@ thread_mlfqs_incr_recent_cpu(void)
   t->recent_cpu = FP_ADD_MIX (t->recent_cpu, 1);
 }
 
-/* Calculate thread's recent_cpu. */
+/* Calcula el valor del thread recent_cpu*/
 void
 thread_mlfqs_calc_recent_cpu(struct thread *t)
 {
@@ -515,7 +512,7 @@ thread_mlfqs_calc_recent_cpu(struct thread *t)
   t->recent_cpu = FP_ADD_MIX (term, t->nice);
 }
 
-/* Update thread's priority. */
+/* Actualiza la prioridad del thread */
 void
 thread_mlfqs_update_priority(struct thread *t)
 {
@@ -535,22 +532,21 @@ thread_mlfqs_update_priority(struct thread *t)
     t->priority = PRI_MAX;
 }
 
-/* Invoked once per second to refresh load_avg
-   and recent_cpu of all threads. */
+/* Se invoca una vez por segundo para actualizar load_avg y Recent_Cpu de todos los threads */
 void
 thread_mlfqs_refresh(void)
 {
   ASSERT (thread_mlfqs);
   ASSERT (intr_context ());
 
-  /* Calculate load_avg per second. */
+
   size_t ready_threads = list_size (&ready_list);
   if (thread_current () != idle_thread)
     ready_threads++;
   load_avg = FP_ADD (FP_DIV_MIX (FP_MULT_MIX (load_avg, 59), 60),
                      FP_DIV_MIX (FP_CONST (ready_threads), 60));
 
-  /* recent_cpu is recalculated for every thread per second. */
+
   struct thread *t;
   struct list_elem *e = list_begin (&all_list);
   for (; e != list_end (&all_list); e = list_next (e))
@@ -564,7 +560,7 @@ thread_mlfqs_refresh(void)
     }
 }
 
-/* Compare wakeup ticks of two threads */
+/*  Compara el numero de tickds de los threads  */
 bool
 thread_wakeup_ticks_less(const struct list_elem *a,
                          const struct list_elem *b,
@@ -575,7 +571,7 @@ thread_wakeup_ticks_less(const struct list_elem *a,
   return pta->wakeup_ticks < ptb->wakeup_ticks;
 }
 
-/* Compare priority of two thread. */
+/* Compara la prioridad de dos hilos */
 bool
 thread_priority_large(const struct list_elem *a,
                       const struct list_elem *b,
